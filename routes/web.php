@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Member;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,9 +30,30 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/test', function () {
+    return Category::query()
+                ->when(Request::input('search'), function ($query, $search) {
+                    $query->where(
+                        fn ($query) =>
+                        $query
+                            ->where('first_name', 'like', "%{$search}%")
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                    );
+                })->get();
+});
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function() {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::resource('/members', MemberController::class);
+    Route::resource('/categories', CategoryController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
