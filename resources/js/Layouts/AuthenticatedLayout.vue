@@ -27,11 +27,29 @@ const showingNavigationDropdown = ref(false);
                         <NavLink class="text-lg" :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </NavLink>
+                        <NavLink class="text-lg" :href="route('books.index')" :active="route().current('books.index')">
+                            Books
+                        </NavLink>
                         <NavLink class="text-lg" :href="route('members.index')" :active="route().current('members.index')">
                             Members
                         </NavLink>
                         <NavLink class="text-lg" :href="route('categories.index')" :active="route().current('categories.index')">
                             Categories
+                        </NavLink>
+                        <NavLink class="text-lg" :href="route('authors.index')" :active="route().current('authors.index')">
+                            Authors
+                        </NavLink>
+                        <NavLink class="text-lg" :href="route('loans.index')" :active="route().current('loans.index')">
+                            Loans
+                        </NavLink>
+                        <NavLink class="text-lg" :href="route('fines.index')" :active="route().current('fines.index')">
+                            Fines
+                        </NavLink>
+                        <NavLink class="text-lg" :href="route('fine-payments.index')" :active="route().current('fine-payments.index')">
+                            Fine Payments
+                        </NavLink>
+                        <NavLink class="text-lg" :href="route('reservations.index')" :active="route().current('reservations.index')">
+                            Reservations
                         </NavLink>
                     </div>
             </div>

@@ -22,6 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MemberSeeder::class,
             CatgorySeeder::class,
+            AuthorSeeder::class,
+            BookSeeder::class,
+            LoanSeeder::class,
+            FineSeeder::class,
+            ReservationSeeder::class,
         ]);
     }
 }

@@ -5,9 +5,9 @@
          <slot></slot>
       </label>
       <input :disabled="disabled" :id="id" :name="name" :type="type"
-         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:bg-gray-200"
          :class="{ 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500  dark:text-red-500 dark:placeholder-red-500 dark:border-red-500': errorMessage }"
-         :value="modelValue" :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)">
+         :value="modelValue" :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)" @blur="$emit('blur')">
       <p v-if="errorMessage" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium"></span>{{
             errorMessage
       }}</p>
@@ -18,11 +18,9 @@
 defineProps({
    id: {
       type: String,
-      required: true,
    },
    name: {
       type: String,
-      required: true,
    },
    placeholder: {
       type: String,
@@ -33,7 +31,7 @@ defineProps({
       default: "text",
    },
    modelValue: {
-      type: [String,Number],
+      type: [String,Number,Date],
    },
    errorMessage: {
       default: false
@@ -44,5 +42,5 @@ defineProps({
    }
 })
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue','blur'])
 </script>

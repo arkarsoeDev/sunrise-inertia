@@ -7,7 +7,6 @@ use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -21,12 +20,8 @@ class CategoryController extends Controller
         return Inertia::render('Categories/Index', [
             'categories' => Category::query()
                 ->when(Request::input('search'), function ($query, $search) {
-                    $query->where(
-                        fn ($query) =>
-                        $query
-                            ->where('title', 'like', "%{$search}%")
-                            ->orWhere('slug', 'like', "%{$search}%")
-                    );
+                    $query
+                        ->where('title', 'like', "%{$search}%");
                 })->paginate(10)
                 ->withQueryString(),
             'filters' => Request::only(['search']),
@@ -53,7 +48,6 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->title = $request->title;
-        $category->slug = Str::slug($request->title);
         $category->save();
 
         return redirect()->route('categories.index');
@@ -93,7 +87,6 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $category->title = $request->title;
-        $category->slug = Str::slug($request->title);
         $category->save();
 
         return redirect()->route('categories.index');

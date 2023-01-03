@@ -11,8 +11,8 @@
       </template>
 
       <div>
-         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <div class="flex justify-between items-center bg-white p-4">
+         <DataListLayout :footer="members.last_page > 1">
+            <template #header>
                <div>
                   <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio"
                      class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -101,68 +101,73 @@
                      class="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                      placeholder="Search for members">
                </div>
-            </div>
-            <!-- table -->
-            <table class="w-full text-md text-left text-gray-500 border-b dark:text-gray-400">
-               <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                     <th scope="col" class="py-3 px-6">
-                        #
-                     </th>
-                     <th scope="col" class="py-3 px-6">
-                        First Name
-                     </th>
-                     <th scope="col" class="py-3 px-6">
-                        Last Name
-                     </th>
-                     <th scope="col" class="py-3 px-6">
-                        Created At
-                     </th>
-                     <th scope="col" class="py-3 px-6">
-                        Action
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr v-for="member in members.data" :key="member.id"
-                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                     <td class="py-4 px-6">
-                        {{ member.id }}
-                     </td>
-                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ member.first_name }}
-                     </th>
-                     <td class="py-4 px-6">
-                        {{ member.last_name }}
-                     </td>
-                     <td class="py-4 px-6">
-                        {{ member.created_at }}
-                     </td>
-                     <td class="py-4 px-6">
-                        <Link :href="route('members.edit', member.id)"
-                           class="font-medium mr-3 text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
-                        <Link :href="route('members.destroy', member.id)" method="delete" as="button"
-                           class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete
-                        </Link>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-            <div class="sm:flex sm:items-center sm:justify-between bg-white p-4">
+            </template>
+            <template #body>
+               <table class="w-full text-md text-left text-gray-500 border-b dark:text-gray-400">
+                  <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                     <tr>
+                        <th scope="col" class="py-3 px-6">
+                           #
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                           First Name
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                           Last Name
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                           Created At
+                        </th>
+                        <th scope="col" class="py-3 px-6">
+                           Action
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr v-for="member in members.data" :key="member.id"
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="py-4 px-6">
+                           {{ member.id }}
+                        </td>
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                           {{ member.first_name }}
+                        </th>
+                        <td class="py-4 px-6">
+                           {{ member.last_name }}
+                        </td>
+                        <td class="py-4 px-6">
+                           {{ member.created_at }}
+                        </td>
+                        <td class="py-4 px-6">
+                           <Link :href="route('members.edit', member.id)"
+                              class="font-medium mr-3 text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                           <Link :href="route('members.destroy', member.id)" method="delete" as="button"
+                              class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete
+                           </Link>
+                        </td>
+                     </tr>
+                     <tr v-if="members.data.length <= 0">
+                        <td class="py-9 text-xl bg-white text-center font-bold" colspan="5">There is no member yet</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </template>
+            <template #footer>
                <div v-if="!mobile" class="font-semibold">
                   <p>Showing from {{ members.from }} to {{ members.to }} in total {{ members.total }}
                      items</p>
                </div>
                <Pagination v-if="members && mobile" :mobile="mobile" :links="members"></Pagination>
                <Pagination v-if="members && !mobile" :mobile="mobile" :links="members.links"></Pagination>
-            </div>
-         </div>
+            </template>
+         </DataListLayout>
       </div>
    </AuthenticatedLayout>
 </template>
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import DataListLayout from '@/Layouts/DataListLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination/Pagination.vue';
 import { isMobile } from '@/helpers/helpers';
@@ -175,7 +180,6 @@ import { Link } from '@inertiajs/inertia-vue3'
 let props = defineProps({
    members: Object,
    filters: Object,
-   can: Object
 });
 
 const mobile = ref(isMobile());
