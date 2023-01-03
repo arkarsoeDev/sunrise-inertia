@@ -71,7 +71,6 @@ Route::middleware('auth')->group(function() {
     Route::resource('/loans', LoanController::class);
     Route::resource('/fines', FineController::class);
     Route::resource('/fine-payments', FinePaymentController::class);
-    Route::resource('/reservations', ReservationController::class);
 
     Route::post('/returns', [ReturnController::class,'store'])->name('returns.store');
 });

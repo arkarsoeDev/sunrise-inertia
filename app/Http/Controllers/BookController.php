@@ -73,16 +73,6 @@ class BookController extends Controller
     {
         return Inertia::render('Books/Show', [
             'book' => new BookResource($book),
-            'reservations' => ReservationResource::collection(
-                Reservation::query()
-                    ->where('book_id', $book->id)
-                    ->when(Request::input('reservation_search'), function ($query, $search) {
-                        $query->where('member_id', 'like', "%{$search}%");
-                    })
-                    ->paginate(10)
-                    ->withQueryString()
-            ),
-            'filters' => Request::only(['reservation_search']),
         ]);
     }
 

@@ -48,9 +48,6 @@ const showingNavigationDropdown = ref(false);
                         <NavLink class="text-lg" :href="route('fine-payments.index')" :active="route().current('fine-payments.index')">
                             Fine Payments
                         </NavLink>
-                        <NavLink class="text-lg" :href="route('reservations.index')" :active="route().current('reservations.index')">
-                            Reservations
-                        </NavLink>
                     </div>
             </div>
             <div class="min-h-screen bg-gray-100 dark:bg-gray-900 lg:flex-grow lg:ml-[180px]">
