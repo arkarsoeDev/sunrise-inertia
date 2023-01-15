@@ -5,7 +5,7 @@
       <template #header>
          <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Create New Fine Payment</h2>
-            <Back :url="route('fine-payments.index')">Back</Back>
+            <Back>Back</Back>
          </div>
       </template>
       <div class="p-4 bg-white shadow rounded-lg">

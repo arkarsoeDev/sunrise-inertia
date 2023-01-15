@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Member\StoreMemberRequest;
 use App\Http\Requests\Member\UpdateMemberRequest;
+use App\Http\Resources\MemberResource;
 use App\Models\Member;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -18,16 +19,18 @@ class MemberController extends Controller
     public function index()
     {
         return Inertia::render('Members/Index', [
-            'members' => Member::query()
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->where(
-                        fn ($query) =>
-                        $query
-                            ->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%")
-                    );
-                })->paginate(10)
-                ->withQueryString(),
+            'members' => MemberResource::collection(
+                Member::query()
+                    ->when(Request::input('search'), function ($query, $search) {
+                        $query->where(
+                            fn ($query) =>
+                            $query
+                                ->where('first_name', 'like', "%{$search}%")
+                                ->orWhere('last_name', 'like', "%{$search}%")
+                        );
+                    })->paginate(10)
+                    ->withQueryString()
+            ),
             'filters' => Request::only(['search']),
         ]);
     }

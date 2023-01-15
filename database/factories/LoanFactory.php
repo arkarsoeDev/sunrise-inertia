@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class LoanFactory extends Factory
 {
     private $customDate;
+    private $ccount = 7;
 
     /**
      * Define the model's default state.
@@ -20,7 +21,7 @@ class LoanFactory extends Factory
      */
     public function definition()
     {
-        $base_date = $this->customDate ?? $this->faker->unixTime($this->faker->dateTimeBetween());
+        $base_date = $this->customDate ?? $this->faker->dateTimeBetween('-7 days','-4 days')->getTimestamp();
         $loan_date = date('Y-m-d', $base_date);
         $return_date = date('Y-m-d', strtotime('+7 days', $base_date));
 
@@ -31,7 +32,14 @@ class LoanFactory extends Factory
             'loan_date' => $loan_date,
             'return_date' => $return_date,
         ];
-        $this->customDate = strtotime($return_date);
+
+        if($this->ccount >= 7) {
+            $this->customDate = strtotime('-6 days', strtotime($return_date));
+            $this->ccount = 0;
+        } else {
+            $this->ccount += 1;
+        }
+
         return $define;
     }
 }

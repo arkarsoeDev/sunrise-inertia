@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -18,12 +19,14 @@ class CategoryController extends Controller
     public function index()
     {
         return Inertia::render('Categories/Index', [
-            'categories' => Category::query()
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query
-                        ->where('title', 'like', "%{$search}%");
-                })->paginate(10)
-                ->withQueryString(),
+            'categories' => CategoryResource::collection(
+                Category::query()
+                    ->when(Request::input('search'), function ($query, $search) {
+                        $query
+                            ->where('title', 'like', "%{$search}%");
+                    })->paginate(10)
+                    ->withQueryString()
+            ),
             'filters' => Request::only(['search']),
         ]);
     }

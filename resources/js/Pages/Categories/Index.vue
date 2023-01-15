@@ -11,7 +11,7 @@
       </template>
 
       <div>
-         <DataListLayout :footer="categories.last_page > 1">
+         <DataListLayout :footer="categories.meta.last_page > 1">
             <template #header>
                <div class="ml-auto">
                   <label for="table-search" class="sr-only">Search</label>
@@ -58,7 +58,7 @@
                            {{ category.title }}
                         </th>
                         <td class="py-4 px-6">
-                           {{ category.created_at }}
+                           {{ formatDate(category.created_at) }}
                         </td>
                         <td class="py-4 px-6">
                            <Link :href="route('categories.edit', category.id)"
@@ -76,11 +76,11 @@
             </template>
             <template #footer>
                <div v-if="!mobile" class="font-semibold">
-                  <p>Showing from {{ categories.from }} to {{ categories.to }} in total {{ categories.total }}
+                  <p>Showing from {{ categories.meta.from }} to {{ categories.meta.to }} in total {{ categories.meta.total }}
                      items</p>
                </div>
                <Pagination v-if="categories && mobile" :mobile="mobile" :links="categories"></Pagination>
-               <Pagination v-if="categories && !mobile" :mobile="mobile" :links="categories.links"></Pagination>
+               <Pagination v-if="categories && !mobile" :mobile="mobile" :links="categories.meta.links"></Pagination>
             </template>
          </DataListLayout>
       </div>
@@ -92,7 +92,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DataListLayout from '@/Layouts/DataListLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination/Pagination.vue';
-import { isMobile } from '@/helpers/helpers';
+import { isMobile, formatDate } from '@/helpers/helpers';
 import { Inertia } from '@inertiajs/inertia';
 import debounce from "lodash/debounce";
 import { ref, watch } from 'vue';

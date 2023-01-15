@@ -6,9 +6,14 @@ use App\Models\Loan;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\Loan\StoreLoanRequest;
 use App\Http\Requests\Loan\UpdateLoanRequest;
+use App\Http\Resources\LoanCountResource;
 use App\Http\Resources\LoanResource;
 use App\Models\Book;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Carbon\Carbon;
+
+use function PHPUnit\Framework\isNan;
 
 class LoanController extends Controller
 {
@@ -22,11 +27,11 @@ class LoanController extends Controller
         return Inertia::render('Loans/Index', [
             'loans' => LoanResource::collection(
                 Loan::query()
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->where('id', 'like', "%{$search}%");
-                })
-                ->paginate(10)
-                ->withQueryString()
+                    ->when(Request::input('search'), function ($query, $search) {
+                        $query->where('id', 'like', "%{$search}%");
+                    })
+                    ->paginate(10)
+                    ->withQueryString()
             ),
             'filters' => Request::only(['search']),
         ]);
@@ -60,17 +65,17 @@ class LoanController extends Controller
         $book = Book::find($request->book_id);
         $book->available = $book->available - 1;
 
-        if(! ($book->available >= 1)) {
-            return redirect()->back()->withErrors(['message' =>'Sorry this book is not available']);
+        if (!($book->available >= 1)) {
+            return redirect()->back()->withErrors(['message' => 'Sorry this book is not available']);
         }
-        
+
         $loan = new Loan();
         $loan->member_id = $request->member_id;
         $loan->book_id = $request->book_id;
         $loan->duration = $request->duration;
         $loan->loan_date = date('Y-m-d', $request->loan_date);
         $loan->return_date = date('Y-m-d', $request->return_date);
-        
+
         $loan->save();
         $book->save();
 

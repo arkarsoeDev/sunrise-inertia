@@ -13,61 +13,63 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="block lg:flex">
-            <div class="hidden lg:block lg:w-[180px] h-screen fixed shadow-md">
-                <!-- Navigation Links -->                
-                    <div class="flex items-center justify-center h-16 mb-8 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-                        <!-- Logo -->
-                        <div class="shrink-0 flex items-center">
-                            <Link :href="route('dashboard')">
-                            <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                            </Link>
-                        </div>
+            <div class="hidden lg:block lg:w-[200px] overflow-auto h-screen fixed shadow-md">
+                <!-- Navigation Links -->
+                <div
+                    class="flex items-center justify-center h-16 mb-8 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+                    <!-- Logo -->
+                    <div class="shrink-0 flex items-center">
+                        <Link :href="route('dashboard')">
+                        <ApplicationLogo class="block h-9 w-auto text-gray-800 dark:text-gray-200" />
+                        </Link>
                     </div>
-                    <div class="hidden space-y-8 lg:-my-px lg:mx-3 lg:flex lg:flex-col">
-                        <NavLink class="text-lg" :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('books.index')" :active="route().current('books.index')">
-                            Books
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('members.index')" :active="route().current('members.index')">
-                            Members
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('categories.index')" :active="route().current('categories.index')">
-                            Categories
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('authors.index')" :active="route().current('authors.index')">
-                            Authors
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('loans.index')" :active="route().current('loans.index')">
-                            Loans
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('fines.index')" :active="route().current('fines.index')">
-                            Fines
-                        </NavLink>
-                        <NavLink class="text-lg" :href="route('fine-payments.index')" :active="route().current('fine-payments.index')">
-                            Fine Payments
-                        </NavLink>
-                    </div>
+                </div>
+                <div class="hidden space-y-8 lg:-my-px lg:mx-3 lg:flex lg:flex-col lg:mb-6">
+                    <NavLink class="text-lg" :href="route('dashboard')" :active="route().current('dashboard')">
+                        Dashboard
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('books.index')" :active="route().current('books.index')">
+                        Books
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('members.index')" :active="route().current('members.index')">
+                        Members
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('categories.index')"
+                        :active="route().current('categories.index')">
+                        Categories
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('authors.index')" :active="route().current('authors.index')">
+                        Authors
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('loans.index')" :active="route().current('loans.index')">
+                        Loans
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('fines.index')" :active="route().current('fines.index')">
+                        Fines
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('fine-payments.index')"
+                        :active="route().current('fine-payments.index')">
+                        Fine Payments
+                    </NavLink>
+                    <h3 class="text-xl font-bold px-1">Data</h3>
+                    <NavLink class="text-lg" :href="route('daily-loan-count.index')"
+                        :active="route().current('daily-loan-count.index')">
+                        Daily Loan Count
+                    </NavLink>
+                    <NavLink class="text-lg" :href="route('most-loan-books.index')"
+                        :active="route().current('most-loan-books.index')">
+                        Most Loan Books
+                    </NavLink>
+                </div>
             </div>
-            <div class="min-h-screen bg-gray-100 dark:bg-gray-900 lg:flex-grow lg:ml-[180px]">
+            <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 lg:flex-grow lg:ml-[200px]">
                 <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                     <!-- Primary Navigation Menu -->
                     <div class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="flex justify-between h-16">
-                            <div class="flex">
-                                <!-- Logo -->
-                                <div class="shrink-0 flex items-center">
-                                    <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                                    </Link>
-                                </div>
-                            </div>
-
+                        <div class="flex justify-end h-16">
                             <div class="hidden lg:flex lg:items-center lg:ml-6">
                                 <!-- Settings Dropdown -->
-                                <div class="ml-3 relative">
+                                <div class="ml-auto relative">
                                     <Dropdown align="right" width="48">
                                         <template #trigger>
                                             <span class="inline-flex rounded-md">
@@ -153,10 +155,17 @@ const showingNavigationDropdown = ref(false);
 
                 <!-- Page Content -->
                 <main>
-                <div class="max-w-9xl mx-auto mb-9 sm:px-6 lg:px-8">
-                    <slot />
-                </div>
+                    <div class="max-w-9xl mx-auto mb-9 sm:px-6 lg:px-8">
+                        <slot />
+                    </div>
                 </main>
+
+                <footer class="mt-auto">
+                    <div class="text-center py-6">
+                        <p>Copyright &copy; 2022, All Rights Reserved</p>
+                    </div>
+                </footer>
+
             </div>
         </div>
     </div>

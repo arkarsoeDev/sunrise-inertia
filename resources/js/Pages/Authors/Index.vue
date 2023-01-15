@@ -11,7 +11,7 @@
       </template>
 
       <div>
-         <DataListLayout :footer="authors.last_page > 1">
+         <DataListLayout :footer="authors.meta.last_page > 1">
             <template #header>
                <div>
                   <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio"
@@ -136,7 +136,7 @@
                            {{ author.last_name }}
                         </td>
                         <td class="py-4 px-6">
-                           {{ author.created_at }}
+                           {{ formatDate(author.created_at) }}
                         </td>
                         <td class="py-4 px-6">
                            <Link :href="route('authors.edit', author.id)"
@@ -154,11 +154,11 @@
             </template>
             <template #footer>
                <div v-if="!mobile" class="font-semibold">
-                  <p>Showing from {{ authors.from }} to {{ authors.to }} in total {{ authors.total }}
+                  <p>Showing from {{ authors.meta.from }} to {{ authors.meta.to }} in total {{ authors.meta.total }}
                      items</p>
                </div>
                <Pagination v-if="authors && mobile" :mobile="mobile" :links="authors"></Pagination>
-               <Pagination v-if="authors && !mobile" :mobile="mobile" :links="authors.links"></Pagination>
+               <Pagination v-if="authors && !mobile" :mobile="mobile" :links="authors.meta.links"></Pagination>
             </template>
          </DataListLayout>
       </div>
@@ -169,7 +169,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import Pagination from '@/Components/Pagination/Pagination.vue';
-import { isMobile } from '@/helpers/helpers';
+import { isMobile, formatDate } from '@/helpers/helpers';
 import { Inertia } from '@inertiajs/inertia';
 import debounce from "lodash/debounce";
 import { ref, watch } from 'vue';
